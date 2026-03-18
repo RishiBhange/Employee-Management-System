@@ -21,7 +21,7 @@ jobs:
 
     - name: Build Jar
       run: |
-       chmod +x./mvnw
+       chmod +x ./mvnw
        ./mvnw clean package -DskipTests
 
 
