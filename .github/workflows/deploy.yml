@@ -45,8 +45,9 @@ jobs:
        username: ${{ secrets.EC2_USER }}
        key: ${{ secrets.EC2_SSH_KEY }}
        script: |
-          docker stop spring-demo || true
-          docker rm spring-demo || true
-          docker pull  ${{secrets.DOCKERHUB_USERNAME}}/spring-ci-demo
-          docker run -d --name spring-demo -p 8080:8080  ${{secrets.DOCKERHUB_USERNAME}}/spring-ci-demo:latest
-          build image 
+         docker stop spring-demo || true
+         docker rm spring-demo || true
+         docker stop $(docker ps -q) || true
+         docker rm $(docker ps -aq) || true
+         docker pull ${{ secrets.DOCKERHUB_USERNAME }}/spring-ci-demo:latest
+         docker run -d --name spring-demo -p 8080:8080 --add-host=host.docker.internal:host-gateway ${{ secrets.DOCKERHUB_USERNAME }}/spring-ci-demo:latest
